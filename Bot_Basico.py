@@ -11,7 +11,7 @@ intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='bubba', description=description, intents=intents)
+bot = commands.Bot(command_prefix='$', description=description, intents=intents)
 
 
 @bot.event
@@ -57,6 +57,17 @@ async def joined(ctx, member: discord.Member):
     """Says when a member joined."""
     await ctx.send(f'{member.name} joined {discord.utils.format_dt(member.joined_at)}')
 
+@bot.command()
+async def info(ctx, *, member: discord.Member):
+    """Tells you some info about the member."""
+    msg = f'{member} joined on {member.joined_at} and has {len(member.roles)} roles.'
+    await ctx.send(msg)
+
+@info.error
+async def info_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('I could not find that member...')
+
 
 @bot.group()
 async def cool(ctx):
@@ -74,4 +85,4 @@ async def _bot(ctx):
     await ctx.send('Yes, the bot is cool.')
 
 
-bot.run('YOUR TOKEN HERE')
+bot.run('MTE4NzUzMjAzNDEzNTA1MjI5OA.Gwhgde.FR6MEeSP8X17pG2ILvWGjwKekrZRctmdgNVBjQ')
